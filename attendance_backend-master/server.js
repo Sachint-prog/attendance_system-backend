@@ -153,11 +153,12 @@ app.post('/checkUsers', (request, response) => {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
         let data = await Promise.all([
-            pool.query(`select * from users`),
+            pool.query(`select distinct * from users`),
         ]);
         // console.log(data[0][0])
         await pool.end();
-        for (let i = 0; i < data.length; i++) {
+        let elem = data[0][0]
+        for (let i = 0; i < elem.length; i++) {
             const element = data[0][0][i];
             console.log(element)
             if (element.user_name == request.body.Username && element.password == request.body.password && element.role == request.body.role) {
@@ -165,14 +166,14 @@ app.post('/checkUsers', (request, response) => {
                 if (request.body.role == "hod") {
                     response.redirect("/hod_home")
                 }
-                else {
+                else if(request.body.role == "faculty"){
                     response.redirect("/faculty_home")
+                }else{
+                    request.render('login.ejs', { info: "error" })
                 }
-            } else {
-                response.render('login.ejs', { info: "error" })
             }
         }
-
+        response.render('login.ejs', { info: "error" })
     }
     checkUsers_from_sql()
 })
