@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const PORT = 2121
+let access = "no"
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -17,6 +18,9 @@ app.get('/login', (request, response) => {
 
 
 app.get('/scanner', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function scan_subjects() {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
@@ -33,32 +37,53 @@ app.get('/scanner', (request, response) => {
 
 
 app.get('/faculty_home', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     response.render('faculty_home.ejs', { message: "data" })
 })
 
 app.get('/hod_home', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     response.render('hod_home.ejs', { message: "data" })
 })
 
 app.get('/create_subject', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     response.render('create_subjects.ejs', { message: "data" })
 })
 
 app.get('/update_subject', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     response.render('update_subject.ejs', { message: "data" })
 })
 
 
 app.get('/delete_subject', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     response.render('delete_subject.ejs', { message: "data" })
 })
 
 app.get('/delete_attendance', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     response.render('delete_attendance.ejs', { message: "data" })
 })
 
 
 app.get('/show_attendance', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function get_date_subject() {
         if (request.body == {}) {
             // console.log(request.body)
@@ -81,6 +106,9 @@ app.get('/show_attendance', (request, response) => {
 })
 
 app.post('/showAttendance', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function get_date_subject() {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
@@ -163,6 +191,7 @@ app.post('/checkUsers', (request, response) => {
             console.log(element)
             if (element.user_name == request.body.Username && element.password == request.body.password && element.role == request.body.role) {
                 console.log(request.body)
+                access = "yes"
                 if (request.body.role == "hod") {
                     response.redirect("/hod_home")
                 }
@@ -193,6 +222,9 @@ app.post('/add_User', (request, response) => {
 })
 
 app.post('/addEnrollmentNo', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function addEnrollmentNo() {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
@@ -207,6 +239,9 @@ app.post('/addEnrollmentNo', (request, response) => {
 
 
 app.post('/createSubject', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function createSubjects() {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
@@ -221,6 +256,9 @@ app.post('/createSubject', (request, response) => {
 })
 
 app.get('/show_subject', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function showSubject() {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
@@ -235,6 +273,9 @@ app.get('/show_subject', (request, response) => {
 })
 
 app.post('/updateSubject', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function uodateSubjects() {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
@@ -250,6 +291,9 @@ app.post('/updateSubject', (request, response) => {
 })
 
 app.post('/deleteSubject', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function deleteSubjects() {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
@@ -265,6 +309,9 @@ app.post('/deleteSubject', (request, response) => {
 })
 
 app.post('/deleteAttendance', (request, response) => {
+    if (access == "no") {
+        response.render('login.ejs', { info: "noError" })
+    }
     async function deleteAttendance() {
         const mysql = require('mysql2/promise');
         const pool = mysql.createPool({ host: "127.0.0.1", user: "root", password: "debian", database: "test" });
